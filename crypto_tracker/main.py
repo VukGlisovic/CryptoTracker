@@ -8,10 +8,11 @@ def main():
     client_coindesk = Coindesk()
     client_pushover = Pushover()
 
+    client_coindesk.update_history()
+
     while True:
         value = client_coindesk.get_current_price()
         message = f"Bitcoin value: €{value}"
-        print(message)
         client_pushover.send_message(message)
         time.sleep(30)
 
