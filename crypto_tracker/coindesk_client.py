@@ -1,3 +1,4 @@
+import logging
 from typing import Optional
 from datetime import datetime
 
@@ -5,13 +6,16 @@ import requests
 from dateutil.relativedelta import relativedelta
 
 
+logger = logging.getLogger(__name__)
+
+
 class Coindesk:
 
     def __init__(self):
         self.base_url = "https://api.coindesk.com/v1"
-        self.history = []
+        self.history = self.update_history()
 
-    def update_history(self, start: Optional[str] = None, end: Optional[str] = None):
+    def update_history(self, start: Optional[str] = None, end: Optional[str] = None) -> list:
         """
         Format of start and end: yyyy-mm-dd.
         If no start and end provided, it takes the last 3 months of data.
@@ -28,12 +32,14 @@ class Coindesk:
             dates = sorted(history.keys())
             values = [history[d] for d in dates]
             return values
+        else:
+            logger.error(f"Got status code: {response.status_code} with message:\n{response.text}")
 
-    def get_current_price(self):
+    def get_current_price(self) -> float:
         url = f"{self.base_url}/bpi/currentprice/EUR.json"
         response = requests.get(url)
         if response.status_code == 200:
             info = response.json()
             return info['bpi']['EUR']['rate_float']
         else:
-            print(f"Got status code: {response.status_code} with message:\n{response.text}")
+            logger.error(f"Got status code: {response.status_code} with message:\n{response.text}")
