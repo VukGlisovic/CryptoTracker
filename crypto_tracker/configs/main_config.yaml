@@ -1,0 +1,7 @@
+main:
+  freq: 300  # seconds between each check
+  days_hist: 14  # number of days in the past to compare against
+  frac: 0.99  # fraction of the minimum recent historical value to compare against
+  update_hour: 9
+pushover:
+  cooldown: 7200  # seconds to wait before sending another message
