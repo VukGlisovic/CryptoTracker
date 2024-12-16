@@ -1,2 +1,3 @@
 .idea
-*config.json
+pushover_config.yaml
+strike_config.yaml
