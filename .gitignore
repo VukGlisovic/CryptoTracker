@@ -1,3 +1,5 @@
 .idea
+
+data/
 pushover_config.yaml
 strike_config.yaml
