@@ -6,6 +6,7 @@ from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
 
+from crypto_tracker.constants import BTC_EUR
 from crypto_tracker.utils import load_config
 from crypto_tracker.strike_client import Strike
 from crypto_tracker.pushover_client import Pushover
@@ -38,7 +39,7 @@ def main(config: dict) -> None:
 
         # check if it's time for the daily update
         if day_last_update_value != now.day and now.hour == update_hour:
-            message = f"Current bitcoin value: €{client_strike.history['btc-eur'].iloc[-1]}"
+            message = f"Current bitcoin value: €{client_strike.history[BTC_EUR].iloc[-1]}"
             client_pushover.send_message(message)
             day_last_update_value = now.day
 
