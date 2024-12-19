@@ -28,7 +28,7 @@ class Strike:
             self.history.index.name = 'date'
             self.history.to_csv(self.ticker_path, index=True)
 
-    def append_to_history(self, price):
+    def append_to_history(self, price: float) -> None:
         now = datetime.now()
         logger.info(f"Storing price {price} at time {now}")
         with open(self.ticker_path, 'a') as f:

@@ -28,6 +28,7 @@ class Pushover:
             "message": message
         })
         self.last_message_sent = datetime.now()
+        logger.info(f"Sent pushover message: {message}")
 
         if response.status_code != 200:
             logger.error(f"Got status code: {response.status_code} with message:\n{response.text}")

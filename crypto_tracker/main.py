@@ -23,7 +23,7 @@ def main(config: dict) -> None:
     client_pushover = Pushover(**config['pushover'])
 
     # setup stateful variables
-    day_last_update_value = datetime.now().day
+    day_last_update_value = datetime.now().day - 1
 
     while True:
         # get starting time of this iteration
@@ -33,12 +33,12 @@ def main(config: dict) -> None:
         value = client_strike.get_current_price(store=True)
         start, end = now - relativedelta(days=days_hist), datetime(now.year, now.month, now.day)
         if not client_strike.history.loc[start: end].empty and value < frac * min(client_strike.history.loc[start: end]):
-            message = f"Bitcoin value: €{value}"
+            message = f"Bitcoin value is relatively low compared to last {days_hist} days: €{value}"
             client_pushover.send_message(message)
 
         # check if it's time for the daily update
         if day_last_update_value != now.day and now.hour == update_hour:
-            message = f"Bitcoin value: €{client_strike.history[-1]}"
+            message = f"Current bitcoin value: €{client_strike.history['btc-eur'].iloc[-1]}"
             client_pushover.send_message(message)
             day_last_update_value = now.day
 
