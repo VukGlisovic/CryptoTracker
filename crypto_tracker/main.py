@@ -33,7 +33,7 @@ def main(config: dict) -> None:
         # get current price and check if message needs to be sent
         value = client_strike.get_current_price(store=True)
         start, end = now - relativedelta(days=days_hist), datetime(now.year, now.month, now.day)
-        if not client_strike.history.loc[start: end].empty and value < frac * min(client_strike.history.loc[start: end]):
+        if not client_strike.history.loc[start: end].empty and value < frac * min(client_strike.history.loc[start: end, BTC_EUR]):
             message = f"Bitcoin value is relatively low compared to last {days_hist} days: €{value}"
             client_pushover.send_message(message)
 
