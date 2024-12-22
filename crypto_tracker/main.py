@@ -12,6 +12,9 @@ from crypto_tracker.strike_client import Strike
 from crypto_tracker.pushover_client import Pushover
 
 
+logger = logging.getLogger(__name__)
+
+
 def main(config: dict) -> None:
     # unpack config
     frac = config['main']['frac']
@@ -26,6 +29,7 @@ def main(config: dict) -> None:
     # setup stateful variables
     day_last_update_value = datetime.now().day - 1
 
+    logger.info("Entering infinite loop...")
     while True:
         # get starting time of this iteration
         now = datetime.now()
