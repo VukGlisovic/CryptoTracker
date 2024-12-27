@@ -5,6 +5,7 @@ from datetime import datetime
 import requests
 import numpy as np
 import pandas as pd
+from dateutil.relativedelta import relativedelta
 
 from crypto_tracker.constants import BTC_EUR
 from crypto_tracker.utils import load_config
@@ -56,3 +57,13 @@ class Strike:
             self.append_to_history(price)
 
         return price
+
+    def create_daily_update_message(self) -> str:
+        end = datetime.now()
+        start = end - relativedelta(days=1)
+        data_last_24h = self.history.loc[start: end, BTC_EUR]
+        message = (f"Current bitcoin value: €{self.history[BTC_EUR].iloc[-1]}\n"
+                   f"Spread last 24h: €{data_last_24h.min()} - €{data_last_24h.max()}\n"
+                   f"Volatility last 24h: €{data_last_24h.std():.2f}")
+        return message
+

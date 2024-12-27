@@ -43,7 +43,7 @@ def main(config: dict) -> None:
 
         # check if it's time for the daily update
         if day_last_update_value != now.day and now.hour == update_hour:
-            message = f"Current bitcoin value: €{client_strike.history[BTC_EUR].iloc[-1]}"
+            message = client_strike.create_daily_update_message()
             client_pushover.send_message(message)
             day_last_update_value = now.day
 
