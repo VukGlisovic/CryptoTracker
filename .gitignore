@@ -1,0 +1,8 @@
+.idea
+
+__pycache__/
+venv/
+
+data/
+pushover_config.yaml
+strike_config.yaml
