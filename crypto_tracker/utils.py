@@ -33,7 +33,7 @@ def retry(max_retries: int = 3, backoff_factor: float = 2., exceptions: tuple = 
                     time.sleep(delay)
                     retries += 1
                     delay *= backoff_factor
-            return None  # Return None if all retries fail
+            return None
 
         return wrapper
 

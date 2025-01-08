@@ -4,7 +4,7 @@ from datetime import datetime
 import requests
 from dateutil.relativedelta import relativedelta
 
-from crypto_tracker.utils import load_config
+from crypto_tracker.utils import load_config, retry
 
 
 logger = logging.getLogger(__name__)
@@ -18,6 +18,7 @@ class Pushover:
         self.config = load_config("configs/pushover_config.yaml")
         self.last_message_sent = datetime.now() - relativedelta(seconds=cooldown)  # init sothat a message can be sent immediately
 
+    @retry(max_retries=5, backoff_factor=2)
     def send_message(self, message: str) -> None:
         if datetime.now() < self.last_message_sent + relativedelta(seconds=self.cooldown):
             # too soon to send another message

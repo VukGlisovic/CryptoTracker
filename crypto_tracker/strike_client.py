@@ -8,7 +8,7 @@ import pandas as pd
 from dateutil.relativedelta import relativedelta
 
 from crypto_tracker.constants import BTC_EUR
-from crypto_tracker.utils import load_config
+from crypto_tracker.utils import load_config, retry
 
 
 logger = logging.getLogger(__name__)
@@ -36,6 +36,7 @@ class Strike:
             f.write(f"{now},{price}\n")
         self.history.loc[now] = {BTC_EUR: price}
 
+    @retry(max_retries=5, backoff_factor=2)
     def get_current_price(self, source_currency: str = 'BTC', target_currency: str = 'EUR', store: bool = False) -> float:
         url = f"{self.base_url}/rates/ticker"
 
