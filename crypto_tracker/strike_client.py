@@ -68,3 +68,14 @@ class Strike:
                    f"Volatility last 24h: €{data_last_24h.std():.2f}")
         return message
 
+    def create_message_if_value_low(self, value: float, now: datetime, days_hist: int, n_std: float) -> str:
+        start, end = now - relativedelta(days=days_hist), datetime(now.year, now.month, now.day)
+        if self.history.loc[start: end].empty:
+            return ""
+        mean, std = self.history.loc[start: end, BTC_EUR].agg(['mean', 'std'])
+        if value < mean - n_std * std:
+            message = (f"Bitcoin value is relatively low compared to last {days_hist} days: €{value}.\n"
+                       f"mean - n_std * std = {mean} - {n_std} * {std} = €{mean - n_std * std} > €{value}")
+        else:
+            message = ""
+        return message

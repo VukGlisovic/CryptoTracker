@@ -1,7 +1,7 @@
 main:
   freq: 600  # seconds between each check
   days_hist: 14  # number of days in the past to compare against
-  frac: 0.98  # fraction of the minimum recent historical value to compare against
+  n_std: 2.0  # number of standard deviations from the average before sending a message
   update_hour: 16  # what hour of the day to always send a message (between 0 and 23 inclusive)
 pushover:
   cooldown: 10800  # seconds to wait before sending another message
