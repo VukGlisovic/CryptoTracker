@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 def main(config: dict) -> None:
     # unpack config
-    frac = config['main']['frac']
+    n_std = config['main']['n_std']
     days_hist = config['main']['days_hist']
     freq = config['main']['freq']
     update_hour = config['main']['update_hour']
@@ -36,9 +36,8 @@ def main(config: dict) -> None:
 
         # get current price and check if message needs to be sent
         value = client_strike.get_current_price(store=True)
-        start, end = now - relativedelta(days=days_hist), datetime(now.year, now.month, now.day)
-        if not client_strike.history.loc[start: end].empty and value < frac * min(client_strike.history.loc[start: end, BTC_EUR]):
-            message = f"Bitcoin value is relatively low compared to last {days_hist} days: €{value}"
+        message = client_strike.create_message_if_value_low(value, now, days_hist, n_std)
+        if message:
             client_pushover.send_message(message)
 
         # check if it's time for the daily update
