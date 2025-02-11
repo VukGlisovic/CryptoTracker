@@ -63,8 +63,8 @@ class Strike:
         end = datetime.now()
         start = end - relativedelta(days=1)
         data_last_24h = self.history.loc[start: end, BTC_EUR]
-        message = (f"Current bitcoin value: €{self.history[BTC_EUR].iloc[-1]}\n"
-                   f"Spread last 24h: €{data_last_24h.min()} - €{data_last_24h.max()}\n"
+        message = (f"Current bitcoin value: €{self.history[BTC_EUR].iloc[-1]:.2f}\n"
+                   f"Spread last 24h: €{data_last_24h.min():.2f} - €{data_last_24h.max():.2f}\n"
                    f"Volatility last 24h: €{data_last_24h.std():.2f}")
         return message
 
@@ -74,8 +74,8 @@ class Strike:
             return ""
         mean, std = self.history.loc[start: end, BTC_EUR].agg(['mean', 'std'])
         if value < mean - n_std * std:
-            message = (f"Bitcoin value is relatively low compared to last {days_hist} days: €{value}.\n"
-                       f"mean - n_std * std = {mean} - {n_std} * {std} = €{mean - n_std * std} > €{value}")
+            message = (f"Bitcoin value is relatively low compared to last {days_hist} days: €{value:.2f}.\n"
+                       f"mean - n_std * std = {mean:.2f} - {n_std} * {std:.2f} = €{mean - n_std * std:.2f} > €{value:.2f}")
         else:
             message = ""
         return message
