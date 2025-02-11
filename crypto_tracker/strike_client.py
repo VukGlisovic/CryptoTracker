@@ -52,7 +52,7 @@ class Strike:
             price = float(rate['amount'])
         else:
             logger.error(f"Got status code: {response.status_code} with message:\n{response.text}")
-            price = np.NaN
+            price = np.nan
 
         if store:
             self.append_to_history(price)
