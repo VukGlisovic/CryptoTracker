@@ -24,7 +24,7 @@ class SingletonMeta(type):
         if cls not in cls._instances:
             cls._instances[cls] = super().__call__(*args, **kwargs)
         else:
-            logger.info(f"Already created an instance of class '{cls.__name__}'")
+            logger.info(f"Already created an instance of class '{cls.__name__}'.")
         return cls._instances[cls]
 
 
