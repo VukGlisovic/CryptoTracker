@@ -24,7 +24,7 @@ def main(config: dict) -> None:
 
     # init clients
     client_strike = Strike()
-    client_pushover = Pushover(**config['pushover'])
+    client_pushover = Pushover()
 
     # setup stateful variables
     day_last_update_value = datetime.now().day - 1

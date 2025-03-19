@@ -12,11 +12,10 @@ logger = logging.getLogger(__name__)
 
 class Pushover:
 
-    def __init__(self, cooldown):
-        self.cooldown = cooldown
-
+    def __init__(self):
         self.config = load_config("configs/pushover_config.yaml")
-        self.last_message_sent = datetime.now() - relativedelta(seconds=cooldown)  # init sothat a message can be sent immediately
+        self.cooldown = self.config['cooldown']
+        self.last_message_sent = datetime.now() - relativedelta(seconds=self.cooldown)  # init sothat a message can be sent immediately
 
     @retry(max_retries=5, backoff_factor=2)
     def send_message(self, message: str) -> None:
