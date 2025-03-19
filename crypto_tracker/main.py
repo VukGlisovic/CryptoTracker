@@ -8,6 +8,7 @@ from dateutil.relativedelta import relativedelta
 
 from crypto_tracker.constants import BTC_EUR
 from crypto_tracker.utils import load_config
+from crypto_tracker.error_handling.catch_errors import catch_function_errors
 from crypto_tracker.strike_client import Strike
 from crypto_tracker.pushover_client import Pushover
 
@@ -15,6 +16,7 @@ from crypto_tracker.pushover_client import Pushover
 logger = logging.getLogger(__name__)
 
 
+@catch_function_errors
 def main(config: dict) -> None:
     # unpack config
     n_std = config['main']['n_std']
@@ -24,7 +26,7 @@ def main(config: dict) -> None:
 
     # init clients
     client_strike = Strike()
-    client_pushover = Pushover(**config['pushover'])
+    client_pushover = Pushover()
 
     # setup stateful variables
     day_last_update_value = datetime.now().day - 1

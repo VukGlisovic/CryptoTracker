@@ -8,7 +8,8 @@ import pandas as pd
 from dateutil.relativedelta import relativedelta
 
 from crypto_tracker.constants import BTC_EUR
-from crypto_tracker.utils import load_config, retry
+from crypto_tracker.utils import load_config
+from crypto_tracker.error_handling.retrying import retry
 
 
 logger = logging.getLogger(__name__)
@@ -17,8 +18,8 @@ logger = logging.getLogger(__name__)
 class Strike:
 
     def __init__(self):
-        self.base_url = "https://api.strike.me/v1"
         self.config = load_config("configs/strike_config.yaml")
+        self.base_url = "https://api.strike.me/v1"
         self.ticker_path = 'data/btc-eur.csv'
         if os.path.exists(self.ticker_path):
             self.history = pd.read_csv(self.ticker_path, index_col='date')
