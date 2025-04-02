@@ -37,7 +37,7 @@ class Strike:
             f.write(f"{now},{price}\n")
         self.history.loc[now] = {BTC_EUR: price}
 
-    @retry(max_retries=5, backoff_factor=2)
+    @retry(max_retries=5, backoff_factor=4)
     def get_current_price(self, source_currency: str = 'BTC', target_currency: str = 'EUR', store: bool = False) -> float:
         url = f"{self.base_url}/rates/ticker"
 
